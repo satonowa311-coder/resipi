@@ -1,13 +1,44 @@
 <!doctype html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>セブン買い足しレシピ</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f8f2">
+  <meta name="description" content="冷蔵庫の食材を写真や手入力で登録。レシピとセブン‐イレブンでの買い足しメモを作る、ゆかレシピ。">
+  <title>ゆかレシピ｜あるもので、今日のごはん。</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css?v=1.0.0">
+  <script src="./app.js?v=1.0.0" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="ゆかレシピ ホーム"><span class="brand-symbol">ゆ<span>✳</span></span><span class="brand-text">ゆかレシピ<small>YUKA RECIPE</small></span></a>
+      <div class="top-actions"><span id="aiBadge" class="ai-badge"><span class="status-dot"></span> 手入力モード</span><button id="openSettings" class="button button-light button-small" type="button" aria-label="AI設定を開く">⚙ <span>AI設定</span></button></div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy"><div class="eyebrow"><span class="eyebrow-dot"></span> 今日の「なに作ろう？」に、ひらめきを。</div><h1>あるもので、<br><span>おいしい</span>をつくろう。</h1><p>冷蔵庫をパシャッと撮るか、食材を入力。<br>今日のレシピと、足りない食材がひと目でわかる。</p><div class="hero-points"><span>📷 写真で食材チェック</span><span>🍳 今日のレシピ</span><span>🛒 買い足しメモ</span></div></div>
+      <div class="hero-art" aria-hidden="true"><span class="orb orb-one"></span><span class="orb orb-two"></span><div class="food-illustration"><span class="bowl-food">🥬</span><span class="bowl-food">🥕</span><span class="bowl-food">🥚</span></div><div class="hero-sticker">おいしい発見<br><strong>毎日の食卓に</strong></div></div>
+    </section>
+
+    <main class="workspace">
+      <div class="left-column">
+        <section class="panel" aria-labelledby="photoHeading"><div class="panel-title"><span class="step">01</span><div><h2 id="photoHeading">冷蔵庫の食材を教えてね</h2><p>写真でも、手入力でもOK。</p></div></div>
+          <label for="photoInput" id="dropArea" class="upload-zone"><input id="photoInput" type="file" accept="image/*" capture="environment" aria-label="食材の写真を選ぶ"><span id="uploadPlaceholder" class="upload-placeholder"><span class="camera-circle">📸</span><strong>写真を撮る・選ぶ</strong><small>スマホのカメラや、PCの写真から</small></span><img id="photoPreview" class="photo-preview" alt="選択した食材の写真" hidden><span id="photoChangeHint" class="photo-change-hint" hidden>写真を変更する</span></label>
+          <div class="photo-controls"><button type="button" id="analyzeButton" class="button button-primary" disabled>✨ AIで食材を判別</button><button type="button" id="clearPhoto" class="button button-text" hidden>写真を外す</button></div><p class="micro-copy" id="photoHelp">AIの接続前は、下の欄に食材を入力して使えます。</p>
+          <div class="sub-divider"></div><label for="ingredientInput" class="field-label">今ある食材を追加</label><div class="input-row"><input id="ingredientInput" type="text" autocomplete="off" maxlength="30" placeholder="例：卵、玉ねぎ、にんじん"><button type="button" id="addIngredient" class="button button-secondary">追加 ＋</button></div><p class="micro-copy">「、」やカンマで区切ってまとめて追加できます。</p><div id="ingredients" class="ingredient-tags" aria-live="polite"></div>
+          <div class="quick-add"><span>よく使う食材</span><div id="quickIngredients" class="quick-chips"></div></div>
+        </section>
+        <section class="panel panel-note" aria-labelledby="shopHeading"><div class="panel-title"><span class="step step-orange">03</span><div><h2 id="shopHeading">買い足しメモ</h2><p>レシピから足りないものを追加できるよ。</p></div></div><div id="shoppingList" class="shopping-list"><p class="empty-inline">まだ買い物メモはありません。</p></div><div class="shopping-actions"><button id="copyShopping" class="button button-secondary" type="button" disabled>📋 メモをコピー</button><button id="clearShopping" class="button button-text" type="button" disabled>すべて消す</button></div><a class="seven-link" href="https://www.sej.co.jp/products/" target="_blank" rel="noopener noreferrer"><span>🏪</span><span>セブン‐イレブンの公式商品ページで確認<small>店舗ごとの在庫・価格は連携していません</small></span><span aria-hidden="true">↗</span></a></section>
+      </div>
+
+      <div class="right-column"><section class="panel recipe-panel" aria-labelledby="recipeHeading"><div class="panel-title"><span class="step">02</span><div><h2 id="recipeHeading">今日のレシピを考えよう</h2><p>人数と調理時間を選んでね。</p></div></div><div class="preferences"><div class="form-field"><label for="servings">何人分？</label><select id="servings"><option value="1">1人分</option><option value="2" selected>2人分</option><option value="3">3人分</option><option value="4">4人分</option><option value="5">5人分</option><option value="6">6人分</option><option value="8">8人分</option><option value="10">10人分</option></select></div><div class="form-field"><label for="maxTime">調理時間の目安</label><select id="maxTime"><option value="15">15分以内</option><option value="30" selected>30分以内</option><option value="45">45分以内</option><option value="60">60分以内</option></select></div></div><div class="form-field avoid-field"><label for="avoidInput">使いたくない食材 <span>（任意）</span></label><input id="avoidInput" type="text" maxlength="100" placeholder="例：ピーマン、辛いもの"><small>アレルギーがある場合は、材料・調味料の表示も必ず確認してね。</small></div><button id="generateButton" type="button" class="button button-primary button-wide">🍳 この食材でレシピを探す</button><div id="recipeNotice" class="recipe-notice" role="status" aria-live="polite">食材を登録すると、ここにおすすめを表示します。</div></section><div id="recipeResults" class="recipe-results" aria-live="polite"><div class="welcome-card"><span>🍽️</span><strong>今日の献立、ここから。</strong><p>左側で食材を追加して、<br>レシピを探してみよう！</p></div></div></div>
+    </main>
+    <footer><p>ゆかレシピ ♡ 毎日の食卓をちょっと楽しく。</p><p>食材・買い物メモはこの端末内に保存。写真は保存しません。AI使用時のみ写真が外部AIに送信されます。</p></footer>
+  </div>
+
+  <dialog id="settingsDialog" class="settings-dialog" aria-labelledby="settingsHeading"><div class="dialog-head"><div><span class="eyebrow">OPTIONAL AI SETUP</span><h2 id="settingsHeading">AIの接続設定</h2></div><button id="closeSettings" type="button" class="dialog-close" aria-label="閉じる">×</button></div><p class="dialog-intro">写真の食材判別とAIのレシピ提案には、Cloudflare WorkerのURLと合言葉が必要です。未設定でも手入力のレシピ検索は使えます。</p><div class="form-field"><label for="workerUrl">Cloudflare Worker のURL</label><input type="url" id="workerUrl" placeholder="https://yuka-recipe-api.〇〇.workers.dev" spellcheck="false" inputmode="url"></div><div class="form-field"><label for="appCode">AI利用の合言葉</label><input type="password" id="appCode" placeholder="Cloudflareで決めた合言葉" autocomplete="off"></div><p class="micro-copy">合言葉はこのタブの一時保存のみ。Gemini APIキーはここに入力しないでください。</p><div class="dialog-buttons"><button id="saveSettings" class="button button-primary" type="button">保存する</button><button id="removeSettings" class="button button-text" type="button">接続を解除</button></div><p id="settingsMessage" class="micro-copy" role="status"></p></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
 </html>
